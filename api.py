@@ -26,9 +26,9 @@ def fetch_posts_and_boosts(
     boosts = []
     seen_post_urls = set()
     total_posts_seen = 0
-
+    # stream_hashtag
     # Iterate over our home timeline until we run out of posts or we hit the limit
-    response = mastodon_client.timeline(min_id=start)
+    response = mastodon_client.timeline_public(min_id=start)
     while response and total_posts_seen < TIMELINE_LIMIT:
 
         # Apply our server-side filters
@@ -68,3 +68,11 @@ def fetch_posts_and_boosts(
         )  # fetch the previous (because of reverse chron) page of results
 
     return posts, boosts
+
+def threshold_booster(mastodon_client: Mastodon, threshold_posts: threshold_posts, threshold_boosts: threshold_boosts):
+        for post in threshold_posts:
+            mastodon_client.status_reblog(post.post_id)
+
+
+
+

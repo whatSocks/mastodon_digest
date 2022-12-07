@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 from jinja2 import Environment, FileSystemLoader
 from mastodon import Mastodon
 
-from api import fetch_posts_and_boosts
+from api import fetch_posts_and_boosts, threshold_booster
 from scorers import get_scorers
 from thresholds import get_threshold_from_name, get_thresholds
 
@@ -35,6 +35,7 @@ def run(
     mastodon_base_url: str,
     mastodon_username: str,
     output_dir: Path,
+    post_booster
 ) -> None:
 
     print(f"Building digest from the past {hours} hours...")
@@ -65,6 +66,8 @@ def run(
         output_dir=output_dir,
     )
 
+    # 4. boost the threshold posts (use strict)
+    threshold_booster(mst, threshold_posts, threshold_boosts)
 
 if __name__ == "__main__":
     scorers = get_scorers()
@@ -137,4 +140,5 @@ if __name__ == "__main__":
         mastodon_base_url,
         mastodon_username,
         output_dir,
+        threshold_booster
     )

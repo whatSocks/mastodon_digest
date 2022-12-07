@@ -14,9 +14,15 @@ class ScoredPost:
     def url(self) -> str:
         return self.info["url"]
 
+    @property    
+    def post_id(self) -> str:
+        return self.info["id"]
+
     def get_home_url(self, mastodon_base_url: str) -> str:
         return f"{mastodon_base_url}/@{self.info['account']['acct']}/{self.info['id']}"
 
     def get_score(self, scorer: Scorer) -> float:
         return scorer.score(self)
+
+
 

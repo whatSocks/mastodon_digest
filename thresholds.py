@@ -44,3 +44,4 @@ def get_threshold_from_name(name: str) -> Threshold:
     """Returns Threshold for a given named string"""
 
     return Threshold[name.upper()]
+
